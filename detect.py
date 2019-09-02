@@ -47,13 +47,13 @@ while (True):
         if state == 1:
             times.append(dt.now())
         break
+
 #print(status)
-print(times)
 
 for i in range(0, len(times), 2):
-    df = df.append({"Start":times[i],"End":times[i+1]},ignore_index=True)
-#df.to_csv("times.csv")
-print(df)
+    df = df.append({"Start": times[i], "End": times[i + 1]}, ignore_index=True)
+df.to_csv("times.csv")
+#print(df)
 
 video.release()
 cv2.destroyAllWindows()

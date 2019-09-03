@@ -6,6 +6,7 @@ video = cv2.VideoCapture(0)
 frame_1 = None
 status = [None]
 times = []
+
 df=pandas.DataFrame(columns=["Start","End"])
 
 while (True):

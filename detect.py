@@ -12,13 +12,20 @@ df = pandas.DataFrame(columns=["Start", "End"])
 while (True):
     check, frame = video.read()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    cv2.imshow("Original Frame", frame)
+    cv2.imshow("Grayscale", gray)
+
     gray = cv2.GaussianBlur(gray, (21, 21), 0)
+    cv2.imshow("Blur", gray)
     state = 0
 
     if frame_1 is None:
         frame_1 = gray
         continue
     delta_frame = cv2.absdiff(gray, frame_1)
+
+    cv2.imshow("Delta", delta_frame)
 
     thresh_frame = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY)[1]
     thresh_frame = cv2.dilate(thresh_frame, None, iterations=3)
@@ -38,8 +45,7 @@ while (True):
     elif status[-1] == 0 and status[-2] == 1:
         times.append(dt.now())
 
-    #cv2.imshow("Gray", frame_1)
-    #cv2.imshow("Delta", delta_frame)
+    cv2.imshow("Initial Frame", frame_1)
     cv2.imshow("Threshold", thresh_frame)
     cv2.imshow("Rectangles", frame)
 
@@ -48,11 +54,9 @@ while (True):
             times.append(dt.now())
         break
 
-#print(status)
-
 for i in range(0, len(times), 2):
     df = df.append({"Start": times[i], "End": times[i + 1]}, ignore_index=True)
-#df.to_csv("times.csv")
+
 print(df)
 
 video.release()
